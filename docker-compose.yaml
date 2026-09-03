@@ -1,0 +1,13 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: url-shortener-mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=urlshortener
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
