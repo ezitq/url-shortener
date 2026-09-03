@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collation = "urls")
+@Document(collection = "urls")
 public class UrlMapping {
 
     @Id

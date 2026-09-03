@@ -20,6 +20,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
         this.urlMappingRepository = urlMappingRepository;
     }
 
+
     @Override
     @Transactional
     public UrlResponse shortenUrl(ShortenUrlRequest request, String baseUrl) {
