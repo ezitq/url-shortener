@@ -3,13 +3,14 @@ package com.bohdan.urlshortener.service;
 import com.bohdan.urlshortener.UrlMapping;
 import com.bohdan.urlshortener.dto.ShortenUrlRequest;
 import com.bohdan.urlshortener.dto.UrlResponse;
+import com.bohdan.urlshortener.exception.AliasAlreadyExistsException;
+import com.bohdan.urlshortener.exception.UrlExpiredException;
+import com.bohdan.urlshortener.exception.UrlNotFoundException;
 import com.bohdan.urlshortener.repository.UrlMappingRepository;
 import com.bohdan.urlshortener.util.Base62Util;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
-import java.util.NoSuchElementException;
 
 @Service
 public class UrlShortenerServiceImpl implements UrlShortenerService {
@@ -20,7 +21,6 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
         this.urlMappingRepository = urlMappingRepository;
     }
 
-
     @Override
     @Transactional
     public UrlResponse shortenUrl(ShortenUrlRequest request, String baseUrl) {
@@ -29,7 +29,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
         if (request.customAlias() != null && !request.customAlias().isBlank()) {
             String alias = request.customAlias().trim();
             if (urlMappingRepository.existsByShortCode(alias)) {
-                throw new IllegalArgumentException("Alias already in use: " + alias);
+                throw new AliasAlreadyExistsException("Alias already in use: " + alias);
             }
             shortCode = alias;
         } else {
@@ -68,10 +68,10 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
     @Transactional
     public String getOriginalUrl(String shortCode) {
         UrlMapping urlMapping = urlMappingRepository.findByShortCode(shortCode)
-                .orElseThrow(() -> new NoSuchElementException("No mapping found for code: " + shortCode));
+                .orElseThrow(() -> new UrlNotFoundException("No mapping found for code: " + shortCode));
 
         if (urlMapping.getExpiresAt() != null && urlMapping.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("Short URL has expired");
+            throw new UrlExpiredException("Url expired");
         }
 
         urlMapping.setClickCount(urlMapping.getClickCount() + 1);

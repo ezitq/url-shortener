@@ -4,6 +4,6 @@ import com.bohdan.urlshortener.dto.ShortenUrlRequest;
 import com.bohdan.urlshortener.dto.UrlResponse;
 
 public interface UrlShortenerService {
-    UrlResponse shortenUrl(ShortenUrlRequest request, String baseUrl) throws IllegalAccessException;
+    UrlResponse shortenUrl(ShortenUrlRequest request, String baseUrl);
     String getOriginalUrl(String shortCode);
 }

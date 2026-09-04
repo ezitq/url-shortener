@@ -23,7 +23,7 @@ public class UrlController {
     public ResponseEntity<UrlResponse> createShortenUrl(
             @Valid @RequestBody ShortenUrlRequest request,
             HttpServletRequest httpRequest
-    ) throws IllegalAccessException {
+    ) {
         String baseUrl = httpRequest.getRequestURL().toString().replace(httpRequest.getRequestURI(), "");
         UrlResponse urlResponse = urlShortenerService.shortenUrl(request, baseUrl);
 
