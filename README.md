@@ -41,7 +41,6 @@ Allows creating short links with optional custom aliases and expiration time.
 ## 🚀 How to Run
 
 ### 1. Start MongoDB
-```bash
 docker-compose up -d
 
 ### 2. Run the application
