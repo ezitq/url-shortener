@@ -47,7 +47,7 @@ docker-compose up -d
 ./gradlew bootRun
 The service will start on http://localhost:8080.
 
-##📡 API Reference
+## 📡 API Reference
 Create short URL
 POST /api/v1/urls
 
